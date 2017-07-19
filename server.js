@@ -5,7 +5,9 @@ const crypto = require('crypto')
 const GITHUB_TOKEN = require('./token')
 const app = express()
 
-mongoose.connect('mongodb://localhost/code_versions')
+mongoose.connect('mongodb://localhost/database')
+mongoose.connection.on('error', console.error)
+
 const Schema = mongoose.Schema
 const Commits = mongoose.model('commits', new Schema({
   repo: String,
