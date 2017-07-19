@@ -23,11 +23,15 @@ const Commits = mongoose.model('commits', new Schema({
 app.use(bodyParser.json())
 
 app.post('/', (req, res) => {
-  const { head_commit, repository } = req.body
+  const { head_commit, repository, ref } = req.body
   const saved = []
   const repoMapping = {
     'site-frontend-admin': 'admin',
     'site-frontend-app': 'app'
+  }
+
+  if (ref !== 'refs/heads/master') {
+    res.status(200).send('Do not need other branch')
   }
 
   try {
