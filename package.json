@@ -4,7 +4,7 @@
   "description": "zhuhaolin.com app & admin repo webhook",
   "main": "index.js",
   "scripts": {
-    "run": "pm2 start server.js --name \"webhook\""
+    "start": "pm2 start server.js --name \"webhook\""
   },
   "author": "Bill",
   "license": "MIT",
