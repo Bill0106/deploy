@@ -10,6 +10,7 @@ mongoose.connection.on('error', console.error)
 
 const Schema = mongoose.Schema
 const Commits = mongoose.model('commits', new Schema({
+  ref: String,
   repo: String,
   built: { type: Boolean, default: false },
   dist_files: { type: String, default: '' },
@@ -30,10 +31,6 @@ app.post('/', (req, res) => {
     'site-frontend-app': 'app'
   }
 
-  if (ref !== 'refs/heads/master') {
-    res.status(200).send('Do not need other branch')
-  }
-
   try {
     const repo = repoMapping[repository.name]
     if (!repo) {
@@ -48,6 +45,7 @@ app.post('/', (req, res) => {
     }
 
     const commit = {
+      ref,
       repo,
       commit_id: head_commit.id,
       commit_message: head_commit.message,
