@@ -9,7 +9,7 @@ mongoose.connect('mongodb://localhost/database')
 mongoose.connection.on('error', console.error)
 
 const Schema = mongoose.Schema
-const Commits = mongoose.model('commits', new Schema({
+const Commits = mongoose.model('CodeCommits', new Schema({
   ref: String,
   repo: String,
   built: { type: Boolean, default: false },
@@ -26,14 +26,13 @@ app.use(bodyParser.json())
 app.post('/', (req, res) => {
   const { head_commit, repository, ref } = req.body
   const saved = []
-  const repoMapping = {
-    'site-frontend-admin': 'admin',
-    'site-frontend-app': 'app'
-  }
+  const repoMapping = [
+    'site-frontend-admin',
+    'site-frontend-app',
+  ]
 
   try {
-    const repo = repoMapping[repository.name]
-    if (!repo) {
+    if (!repoMapping.includes(repository.name)) {
       throw new Error('No such repository')
     }
 
@@ -46,7 +45,7 @@ app.post('/', (req, res) => {
 
     const commit = {
       ref,
-      repo,
+      repo: repository.name,
       commit_id: head_commit.id,
       commit_message: head_commit.message,
       committer_name: head_commit.author.name,
