@@ -13,6 +13,7 @@ const Commits = mongoose.model('CodeCommits', new Schema({
   ref: String,
   repo: String,
   built: { type: Boolean, default: false },
+  active: { type: Boolean, default: false },
   dist_files: { type: String, default: '' },
   commit_id: { type: Schema.Types.String, index: { unique: true } },
   commit_message: String,
