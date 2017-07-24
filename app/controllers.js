@@ -3,7 +3,15 @@ const GITHUB_TOKEN = require('./token')
 const Commits = require('./CommitsModel')
 
 const index = (req, res) => {
-  res.send('Welcome to deploy!')
+  const repo = req.query.repo || 'site-frontend-admin'
+  const limit = 30
+  const page = Number(req.query.page) || 1
+  const offset = limit * (page - 1)
+  Commits.where('repo', repo).limit(limit).skip(offset).find((err, commits) => {
+    if (err) res.sendStatus(500)
+
+    res.render('commits', { commits })
+  })
 }
 
 const webhook = (req, res) => {

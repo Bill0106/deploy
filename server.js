@@ -1,3 +1,4 @@
+const path = require('path')
 const express = require('express')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
@@ -15,6 +16,9 @@ mongoose.connection.on('connected', function () {
 mongoose.connection.on('error',function (err) {
   console.log('Mongoose default connection error: ' + err);
 })
+
+app.set('views', path.join(__dirname, '/app'))
+app.set('view engine', 'pug')
 
 app.use(bodyParser.json())
 app.use('/', routes)
