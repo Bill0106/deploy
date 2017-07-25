@@ -60,10 +60,7 @@ html
         socket.on('error', error => {
           $("[data-deploy='error']").text(error).show()
         })
-        socket.on('log', log => {
-          console.log(log)
-          $("[data-deploy-log]").append(log)
-        })
+        socket.on('log', log => $("[data-deploy-log]").html(log))
 
         $("[data-deploy-build]").click(function() {
           const id = $(this).data('deploy-build')

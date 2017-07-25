@@ -3,7 +3,7 @@ const Schema = mongoose.Schema
 
 const LogsSchema = new Schema({
   commit_id: { type: Schema.Types.ObjectId, unique: true },
-  log: Schema.Types.String,
+  log: String,
 }, {
   timestamps: true
 })
