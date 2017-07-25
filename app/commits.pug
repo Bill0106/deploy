@@ -6,10 +6,17 @@ html
     link(href='//cdn.bootcss.com/material-design-icons/3.0.1/iconfont/material-icons.min.css' rel='stylesheet')
     style(type='text/css').
       .navbar {
-        margin-bottom: 20px
+        margin-bottom: 20px;
       }
       .table td {
-        vertical-align: middle
+        vertical-align: middle;
+      }
+      .deploy-logs {
+        padding: 20px;
+        color: #fff;
+        border-radius: 5px;
+        background-color: #000;
+        white-space: pre-wrap;
       }
   body
     nav.navbar.navbar-light.bg-faded
@@ -40,7 +47,7 @@ html
               span(aria-hidden='true') &times;
           div.modal-body
             div.alert.alert-danger(role='alert' style='display: none' data-deploy='error')
-            pre
+            pre.deploy-logs
               code(data-deploy-log)
 
     script(src='//cdn.bootcss.com/tether/1.4.0/js/tether.min.js' type='text/javascript')
@@ -54,6 +61,7 @@ html
           $("[data-deploy='error']").text(error).show()
         })
         socket.on('log', log => {
+          console.log(log)
           $("[data-deploy-log]").append(log)
         })
 
