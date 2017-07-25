@@ -39,13 +39,27 @@ html
             button.close(type='button' data-dismiss='modal' aria-label='Close')
               span(aria-hidden='true') &times;
           div.modal-body
-            p Building
+            div.alert.alert-danger(role='alert' style='display: none' data-deploy='error')
+            pre
+              code(data-deploy-log)
+
     script(src='//cdn.bootcss.com/tether/1.4.0/js/tether.min.js' type='text/javascript')
     script(src='//cdn.bootcss.com/jquery/3.2.1/jquery.min.js' type='text/javascript')
     script(src='//cdn.bootcss.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js' type='text/javascript')
+    script(src='//cdn.bootcss.com/socket.io/2.0.3/socket.io.slim.js' type='text/javascript')
     script.
       $(document).ready(function() {
+        const socket = io.connect('http://192.168.33.10:3000')
+        socket.on('error', error => {
+          $("[data-deploy='error']").text(error).show()
+        })
+        socket.on('log', log => {
+          $("[data-deploy-log]").append(log)
+        })
+
         $("[data-deploy-build]").click(function() {
+          const id = $(this).data('deploy-build')
+          socket.emit('build', { id })
           $("#buildModal").modal('show')
         })
       })

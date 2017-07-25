@@ -1,1 +1,9 @@
-module.exports = ''
+const token = {
+  'GITHUB_TOKEN': '',
+  'AUTH': {
+    'USERNAME': '',
+    'PASSWORD': '',
+  },
+}
+
+module.exports = token

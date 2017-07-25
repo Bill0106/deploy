@@ -5,6 +5,8 @@ const mongoose = require('mongoose')
 const bluebird = require('bluebird')
 const routes = require('./app')
 const app = express()
+const server = require('http').Server(app)
+require('./app/socket')(server)
 
 mongoose.Promise = bluebird
 mongoose.connect('mongodb://localhost/code')
@@ -23,6 +25,6 @@ app.set('view engine', 'pug')
 app.use(bodyParser.json())
 app.use('/', routes)
 
-app.listen(3000, function () {
+server.listen(3000, function () {
   console.log('Example app listening on port 3000!')
 })

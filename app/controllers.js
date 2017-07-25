@@ -1,6 +1,6 @@
 const crypto = require('crypto')
-const GITHUB_TOKEN = require('./token')
-const Commits = require('./CommitsModel')
+const token = require('./token')
+const Commits = require('./models/CommitsModel')
 
 const index = (req, res) => {
   const repo = req.query.repo || 'site-frontend-admin'
@@ -23,7 +23,7 @@ const webhook = (req, res) => {
       throw new Error('No such repository')
     }
 
-    const hmac = crypto.createHmac('sha1', GITHUB_TOKEN)
+    const hmac = crypto.createHmac('sha1', token.GITHUB_TOKEN)
     hmac.update(JSON.stringify(req.body))
     const sign = `sha1=${hmac.digest('hex')}`
     if (req.get('X-Hub-Signature') !== sign) {
