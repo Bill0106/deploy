@@ -23,7 +23,7 @@ const build = (commit, socket) => {
     commit.dist_files = fs.readFileSync(manifest).toString()
     commit.save()
     fs.unlinkSync(manifest)
-    socket.emit('finish', true)
+    socket.emit('buildFinish', true)
   })
 }
 
@@ -45,13 +45,13 @@ const socket = server => {
         })
         .then(commit => {
           if (!commit) {
-            socket.emit('error', 'No such commit!')
+            socket.emit('buildError', 'No such commit!')
             return false
           }
 
           build(commit, socket)
         })
-        .catch(err => console.log(err))
+        .catch(err => socket.emit('buildError', err.message))
     })
   })
 

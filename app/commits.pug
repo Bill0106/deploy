@@ -57,11 +57,9 @@ html
     script.
       $(document).ready(function() {
         const socket = io.connect('http://192.168.33.10:3000')
-        socket.on('error', error => {
-          $("[data-deploy='error']").text(error).show()
-        })
+        socket.on('buildError', error => $("[data-deploy='error']").text(error).show()
         socket.on('log', log => $("[data-deploy-log]").html(log))
-        socket.on('finish', finish => window.location.reload())
+        socket.on('buildFinish', finish => window.location.reload())
 
         $("[data-deploy-build]").click(function() {
           const id = $(this).data('deploy-build')
