@@ -8,6 +8,9 @@ html
       .navbar {
         margin-bottom: 20px;
       }
+      .btn-group {
+        margin-bottom: 20px;
+      }
       .table td {
         vertical-align: middle;
       }
@@ -24,6 +27,11 @@ html
     div.container-fluid
       div.row
         div.col
+          div.btn-group
+            a.btn.btn-secondary(href='/?repo=site-frontend-app' class=repo === 'site-frontend-app' ? 'active' : '') App
+            a.btn.btn-secondary(href='/?repo=site-frontend-admin' class=repo === 'site-frontend-admin' ? 'active' : '') Admin
+      div.row
+        div.col
           table.table.table-bordered
             tbody
               each commit in commits
@@ -36,8 +44,12 @@ html
                   td= commit.committedAt
                   td= (commit.dist_files || 'Waiting')
                   td
-                    button.btn.btn-primary.btn-sm(type='button' data-deploy-build=commit._id)
-                      i.material-icons build
+                    if !commit.dist_files
+                      button.btn.btn-primary.btn-sm(type='button' data-deploy-build=commit._id)
+                        i.material-icons build
+                    else if !commit.published
+                      button.btn.btn-success.btn-sm(type='button' data-deploy-publish=commit._id)
+                        i.material-icons publish
     div#buildModal.modal.fade
       div.modal-dialog.modal-lg(role='document')
         div.modal-content
@@ -57,7 +69,7 @@ html
     script.
       $(document).ready(function() {
         const socket = io.connect('http://192.168.33.10:3000')
-        socket.on('buildError', error => $("[data-deploy='error']").text(error).show()
+        socket.on('buildError', error => $("[data-deploy='error']").text(error).show())
         socket.on('log', log => $("[data-deploy-log]").html(log))
         socket.on('buildFinish', finish => window.location.reload())
 
