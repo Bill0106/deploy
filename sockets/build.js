@@ -2,7 +2,6 @@ const fs = require('fs')
 const path = require('path')
 const child = require('child_process')
 const AU = require('ansi_up')
-const Commits = require('../models/Commits')
 const Logs = require('../models/Logs')
 const ansi_up = new AU.default
 
