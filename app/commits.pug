@@ -61,6 +61,7 @@ html
           $("[data-deploy='error']").text(error).show()
         })
         socket.on('log', log => $("[data-deploy-log]").html(log))
+        socket.on('finish', finish => window.location.reload())
 
         $("[data-deploy-build]").click(function() {
           const id = $(this).data('deploy-build')
