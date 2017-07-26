@@ -9,7 +9,13 @@ const index = (req, res) => {
   const page = Number(req.query.page) || 1
   const offset = limit * (page - 1)
 
-  Commits.where('repo', repo).limit(limit).skip(offset).sort({ committedAt: 'desc' }).find().exec()
+  Commits
+    .where({ 'repo': repo, 'ref': 'refs/heads/master' })
+    .sort({ committedAt: 'desc' })
+    .limit(limit)
+    .skip(offset)
+    .find()
+    .exec()
     .then(data => {
       const commits = data.map(item => {
         let dist_files = ''
