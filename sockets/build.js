@@ -21,6 +21,6 @@ module.exports = (commit, socket) => {
     commit.dist_files = fs.readFileSync(manifest).toString()
     commit.save()
     fs.unlinkSync(manifest)
-    socket.emit('buildFinish', true)
+    socket.emit('finish', true)
   })
 }

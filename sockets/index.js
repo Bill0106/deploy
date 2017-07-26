@@ -1,6 +1,7 @@
 const Commits = require('../models/Commits')
 const Logs = require('../models/Logs')
 const build = require('./build')
+const publish = require('./publish')
 
 module.exports = socket => {
   socket.on('build', data => {
@@ -15,7 +16,7 @@ module.exports = socket => {
           Commits.findById(id).exec()
             .then(commit => {
               if (!commit) {
-                socket.emit('buildError', 'No such commit!')
+                socket.emit('err', 'No such commit!')
                 return false
               }
 
@@ -23,6 +24,21 @@ module.exports = socket => {
             })
         }
       })
-      .catch(err => socket.emit('buildError', err.message))
+      .catch(err => socket.emit('err', err.message))
+  })
+
+  socket.on('publish', data => {
+    const { id } = data
+
+    Commits.findById(id).exec()
+      .then(res => {
+        if (!res) {
+          socket.emit('err', 'No such commit!')
+          return false
+        }
+
+        publish(res, socket)
+      })
+      .catch(err => socket.emit('err', err.message))
   })
 }

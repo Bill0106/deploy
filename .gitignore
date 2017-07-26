@@ -60,3 +60,4 @@ typings/
 config/token.js
 manifest.json
 index.html
+.DS_Store
