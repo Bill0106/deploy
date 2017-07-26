@@ -57,5 +57,6 @@ typings/
 # dotenv environment variables file
 .env
 
-app/token.js
+config/token.js
 manifest.json
+index.html
