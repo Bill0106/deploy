@@ -1,10 +1,10 @@
 {
-  "name": "webhook",
-  "version": "1.0.0",
+  "name": "deploy",
+  "version": "2.0.0",
   "description": "zhuhaolin.com app & admin repo webhook",
   "main": "index.js",
   "scripts": {
-    "start": "pm2 start server.js --name \"webhook\""
+    "start": "pm2 start server.js --name \"deploy\""
   },
   "author": "Bill",
   "license": "MIT",
