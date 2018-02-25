@@ -2,10 +2,7 @@ const moment = require('moment')
 const Commits = require('../models/Commits')
 
 module.exports = async (req, res) => {
-  const limit = 30
-  const { repo } = req.query
-  const page = Number(req.query.page) || 1
-  const offset = limit * (page - 1)
+  const { repo, limit, offset } = req.query
 
   try {
     if (!['app', 'admin'].includes(repo)) {
@@ -14,8 +11,8 @@ module.exports = async (req, res) => {
 
     const commits = await Commits.where({ 'repo': repo, 'ref': 'refs/heads/master' })
       .sort({ committedAt: 'desc' })
-      .limit(limit)
-      .skip(offset)
+      .limit(Number(limit) || 30)
+      .skip(Number(offset) || 0)
       .find()
       .exec()
 

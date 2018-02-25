@@ -13,6 +13,7 @@ mongoose.Promise = bluebird
 mongoose.connect('mongodb://localhost/database')
 
 app.use(bodyParser.json())
+app.use(express.static('public'))
 app.use('/', routes)
 
 // io.on('connection', socket => sockets(socket))
