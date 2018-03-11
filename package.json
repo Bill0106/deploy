@@ -4,7 +4,8 @@
   "description": "zhuhaolin.com app & admin repo webhook",
   "main": "index.js",
   "scripts": {
-    "start": "pm2 start server.js --name \"deploy\""
+    "start": "pm2 start server.js --name \"deploy\"",
+    "dev": "nodemon server.js"
   },
   "author": "Bill",
   "license": "MIT",

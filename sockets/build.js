@@ -2,6 +2,7 @@ const fs = require('fs')
 const path = require('path')
 const child = require('child_process')
 const AU = require('ansi_up')
+const Builds = require('../models/Builds')
 const Logs = require('../models/Logs')
 const ansi_up = new AU.default
 
@@ -14,12 +15,18 @@ module.exports = (commit, socket) => {
     socket.emit('log', log)
   })
 
-  spawn.on('close', code => {
-    Logs.create({ commit_id: commit._id, log })
+  spawn.on('close', async code => {
+    const log = await Logs.create({ contents: log })
 
     const manifest = path.join(__dirname, '../', 'manifest.json')
-    commit.dist_files = fs.readFileSync(manifest).toString()
+    const build = await Builds.create({
+      dist_files: fs.readFileSync(manifest).toString(),
+      log_id: log._id
+    })
+
+    commit.build_id = build._id
     commit.save()
+
     fs.unlinkSync(manifest)
     socket.emit('finish', true)
   })

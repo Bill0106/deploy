@@ -1,44 +1,36 @@
 const Commits = require('../models/Commits')
-const Logs = require('../models/Logs')
+const Builds = require('../models/Builds')
 const build = require('./build')
 const publish = require('./publish')
 
 module.exports = socket => {
-  socket.on('build', data => {
+  socket.on('build', async data => {
     const { id } = data
 
-    Logs.findOne({ commit_id: id }).exec()
-      .then(res => {
-        if (res) {
-          socket.emit('log', res.log)
-          return false
-        } else {
-          Commits.findById(id).exec()
-            .then(commit => {
-              if (!commit) {
-                socket.emit('err', 'No such commit!')
-                return false
-              }
+    try {
+      const commit = await Commits.findById(id).exec()
+      if (!commit) {
+        throw new Error('No such commit!')
+      }
 
-              build(commit, socket)
-            })
-        }
-      })
-      .catch(err => socket.emit('err', err.message))
+      build(commit, socket)
+    } catch (error) {
+      socket.emit('err', error.message)
+    }
   })
 
-  socket.on('publish', data => {
+  socket.on('publish', async data => {
     const { id } = data
 
-    Commits.findById(id).exec()
-      .then(res => {
-        if (!res) {
-          socket.emit('err', 'No such commit!')
-          return false
-        }
+    try {
+      const build = await Builds.findById(id).exec()
+      if (!build) {
+        throw new Error('No such build!')
+      }
 
-        publish(res, socket)
-      })
-      .catch(err => socket.emit('err', err.message))
+      publish(build, socket)
+    } catch (error) {
+      socket.emit('err', error.message)
+    }
   })
 }

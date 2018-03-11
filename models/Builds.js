@@ -3,7 +3,7 @@ const Schema = mongoose.Schema
 
 const BuildsSchema = new Schema({
   dist_files: {
-    type: [String],
+    type: String,
     required: true
   },
   published: {
@@ -20,4 +20,4 @@ const BuildsSchema = new Schema({
   timestamps: true
 })
 
-module.exports = mongoose.model('builds', BuildsSchema)
+module.exports = mongoose.model('Builds', BuildsSchema)
