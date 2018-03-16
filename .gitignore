@@ -58,5 +58,5 @@ typings/
 .env
 
 config/token.js
-manifest.json
+dist/
 .DS_Store

@@ -14,6 +14,20 @@
     #app {
       padding: 30px;
     }
+    .logs {
+      margin: 0;
+      padding: 20px;
+      height: 400px;
+      color: #fff;
+      border-radius: 5px;
+      background-color: #000;
+      white-space: pre-wrap;
+      overflow: auto;
+    }
+    .logs > code {
+      margin: 0;
+      padding: 0;
+    }
   </style>
 </head>
 <body>
@@ -25,7 +39,7 @@
       <el-table-column label="Commited At" prop="committedAt"></el-table-column>
       <el-table-column label="Operator">
         <template slot-scope="scope">
-          <el-button type="primary" v-if="!scope.row.builds">Build</el-button>
+          <el-button type="primary" v-if="!scope.row.builds" @click="handleBuild(scope.row._id)">Build</el-button>
           <el-button v-if="scope.row.builds">Log</el-button>
           <el-button type="success" v-if="scope.row.builds">
             {{scope.row.builds.published ? 'Unpublish' : 'Publish'}}
@@ -33,12 +47,17 @@
         </template>
       </el-table-column>
     </el-table>
+
+    <el-dialog :title="buildDidalogTitle" :visible.sync="buildDialogVisible">
+      <pre class="logs"><code v-html="logs"></code></pre>
+    </el-dialog>
   </div>
 
-  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-  <script src="https://unpkg.com/moment@2.21.0/moment.js"></script>
-  <script src="https://unpkg.com/vue"></script>
-  <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+  <script src="https://cdn.bootcss.com/axios/0.18.0/axios.min.js"></script>
+  <script src="https://cdn.bootcss.com/date-fns/1.29.0/date_fns.min.js"></script>
+  <script src="https://cdn.bootcss.com/vue/2.5.15/vue.min.js"></script>
+  <script src="https://cdn.bootcss.com/element-ui/2.2.1/index.js"></script>
+  <script src="https://cdn.bootcss.com/socket.io/2.0.4/socket.io.slim.js"></script>
   <script src="./script.js"></script>
 </body>
 </html>
