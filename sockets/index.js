@@ -15,7 +15,7 @@ module.exports = socket => {
 
       build(commit, socket)
     } catch (error) {
-      socket.emit('err', error.message)
+      socket.emit('error', error.message)
     }
   })
 
@@ -30,7 +30,7 @@ module.exports = socket => {
 
       publish(build, socket)
     } catch (error) {
-      socket.emit('err', error.message)
+      socket.emit('error', error.message)
     }
   })
 }

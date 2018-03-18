@@ -17,4 +17,3 @@ echo "Do Finally Clean"
 cd ..
 mv $1/dist deploy
 rm -rf $1
-echo "Finished: Success"

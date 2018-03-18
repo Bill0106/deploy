@@ -6,7 +6,8 @@ new Vue({
   data: {
     commits: [],
     page: 1,
-    logs: [],
+    logs: '',
+    error: '',
     buildDidalogTitle: 'Commit Building...',
     buildDialogVisible: false,
     isFetching: false,
@@ -45,5 +46,7 @@ new Vue({
     socket.on('log', log => {
       this.logs = log
     })
+
+    socket.on('error', error => console.log(error))
   }
 })

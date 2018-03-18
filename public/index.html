@@ -32,7 +32,7 @@
 </head>
 <body>
   <div id="app">
-    <el-table :data="filteredCommits" v-loading="isFetching">
+    <el-table :data="filteredCommits" @close="logs = ''" v-loading="isFetching">
       <el-table-column label="ID" prop="commit_id"></el-table-column>
       <el-table-column label="Message" prop="commit_message"></el-table-column>
       <el-table-column label="Committer" prop="committer"></el-table-column>
