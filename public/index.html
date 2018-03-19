@@ -14,6 +14,9 @@
     #app {
       padding: 30px;
     }
+    .error {
+      margin-bottom: 10px;
+    }
     .logs {
       margin: 0;
       padding: 20px;
@@ -49,6 +52,7 @@
     </el-table>
 
     <el-dialog :title="buildDidalogTitle" :visible.sync="buildDialogVisible">
+      <el-alert class="error" type="error" v-if="error" :title="error"></el-alert>
       <pre class="logs"><code v-html="logs"></code></pre>
     </el-dialog>
   </div>

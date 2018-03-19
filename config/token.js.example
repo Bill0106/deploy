@@ -1,8 +1,8 @@
 const token = {
   'GITHUB_TOKEN': '',
-  'AUTH': {
-    'USERNAME': '',
-    'PASSWORD': '',
+  'QINIU': {
+    'AK': '',
+    'SK': '',
   },
 }
 

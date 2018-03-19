@@ -47,6 +47,13 @@ new Vue({
       this.logs = log
     })
 
-    socket.on('error', error => console.log(error))
+    socket.on('err', error => {
+      this.error = error
+    })
+
+    socket.on('finish', () => {
+      this.buildDialogVisible = false
+      this.fetchList()
+    })
   }
 })

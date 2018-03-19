@@ -13,6 +13,10 @@ module.exports = socket => {
         throw new Error('No such commit!')
       }
 
+      if (commit.build_id) {
+        throw new Error('Commit has builded!')
+      }
+
       build(commit, socket)
     } catch (error) {
       socket.emit('error', error.message)
