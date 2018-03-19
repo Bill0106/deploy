@@ -11,11 +11,6 @@ const BuildsSchema = new Schema({
     default: false,
   },
   publishedAt: Date,
-  log_id: {
-    type: Schema.Types.ObjectId,
-    index: { unique: true },
-    ref: 'Logs',
-  }
 }, {
   timestamps: true
 })

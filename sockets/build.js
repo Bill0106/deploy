@@ -97,9 +97,7 @@ module.exports = async (commit, socket) => {
     await commit.save()
     emitLogs('Finished: Success\n')
 
-    const log = await Logs.create({ contents })
-    build.log_id = log._id
-    await build.save()
+    const log = await Logs.create({ contents, build_id: build._id })
 
     rimraf(dist, err => {
       if (err) throw err

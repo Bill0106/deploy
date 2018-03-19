@@ -6,6 +6,11 @@ const LogsSchema = new Schema({
     type: String,
     required: true,
   },
+  build_id: {
+    type: Schema.Types.ObjectId,
+    index: { unique: true },
+    ref: 'Builds',
+  }
 }, {
   timestamps: true
 })
