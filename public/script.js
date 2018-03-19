@@ -8,9 +8,10 @@ new Vue({
     page: 1,
     logs: '',
     error: '',
-    buildDidalogTitle: 'Commit Building...',
+    buildDidalogTitle: '',
     buildDialogVisible: false,
     isFetching: false,
+    isFetchingLog: false,
   },
   computed: {
     filteredCommits() {
@@ -31,13 +32,31 @@ new Vue({
       const offset = (this.page - 1) * 30
 
       this.isFetching = true
-      const commits = await axios.get(`/commits?repo=admin&limit=${limit}&offset=${offset}`)
-      this.commits = commits.data
+      const res = await axios.get(`/commits?repo=admin&limit=${limit}&offset=${offset}`)
+      this.commits = res.data
       this.isFetching = false
     },
     handleBuild(id) {
+      this.buildDidalogTitle = 'Commit Building...'
       this.buildDialogVisible = true
       socket.emit('build', { id })
+    },
+    async handleLog(build) {
+      try {
+        this.buildDidalogTitle = 'Build Log'
+        this.buildDialogVisible = true
+        this.isFetchingLog = true
+
+        const res = await axios.get(`/builds/${build._id}/log`)
+        if (!res.data) {
+          throw new Error('No Log!')
+        }
+
+        this.logs = res.data.contents
+        this.isFetchingLog = false
+      } catch (error) {
+        this.$message.error(error.message)
+      }
     }
   },
   mounted() {
