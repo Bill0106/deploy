@@ -1,5 +1,5 @@
 #!/bin/bash
 
-cd ../test
+cd ../$1
 cp index.html index.html.backup
-echo $1 | tee index.html
+echo $2 | tee index.html

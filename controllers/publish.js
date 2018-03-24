@@ -31,13 +31,14 @@ function makeIndexFile(commit) {
 
 /**
  * Run publish.sh write html to index.html
+ * @param  {string} repo
  * @param  {string} html
  *
  * @returns {promise}
  */
-function runPublish(html) {
+function runPublish(repo, html) {
   return new Promise((resolve, reject) => {
-    child.exec(`bash bash/publish.sh ${html}`, async (err, stdout, stderr) => {
+    child.exec(`bash bash/publish.sh ${repo} ${html}`, async (err, stdout, stderr) => {
       if (err) reject(err)
 
       resolve()
@@ -65,7 +66,7 @@ module.exports = async (req, res) => {
     }
 
     const html = makeIndexFile(commit)
-    await runPublish()
+    await runPublish(commit.repo, html)
 
     build.published = true
     build.publishedAt = new Date()
