@@ -1,4 +1,3 @@
-const path = require('path')
 const express = require('express')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
@@ -11,11 +10,10 @@ const server = require('http').Server(app)
 const io = require('socket.io')(server)
 
 mongoose.Promise = bluebird
-mongoose.connect('mongodb://localhost/code')
-
-app.set('view engine', 'pug')
+mongoose.connect('mongodb://localhost/database')
 
 app.use(bodyParser.json())
+app.use(express.static('public'))
 app.use('/', routes)
 
 io.on('connection', socket => sockets(socket))

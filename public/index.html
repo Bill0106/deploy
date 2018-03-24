@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Deploy</title>
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+    }
+    #app {
+      padding: 30px;
+    }
+    .error {
+      margin-bottom: 10px;
+    }
+    .logs {
+      margin: 0;
+      padding: 20px;
+      height: 400px;
+      color: #fff;
+      border-radius: 5px;
+      background-color: #000;
+      white-space: pre-wrap;
+      overflow: auto;
+    }
+    .logs > code {
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <el-table :data="filteredCommits" @close="logs = ''" v-loading="isFetching">
+      <el-table-column label="ID" prop="commit_id"></el-table-column>
+      <el-table-column label="Message" prop="commit_message"></el-table-column>
+      <el-table-column label="Committer" prop="committer"></el-table-column>
+      <el-table-column label="Commited At" prop="committedAt"></el-table-column>
+      <el-table-column label="Operator">
+        <template slot-scope="scope">
+          <el-button type="primary" v-if="!scope.row.builds" @click="handleBuild(scope.row._id)">Build</el-button>
+          <el-button v-if="scope.row.builds" @click="handleLog(scope.row.build_id)">Log</el-button>
+          <el-button type="success" v-if="scope.row.builds && !scope.row.builds.published" :loading="isPublishing" @click="handlePublish(scope.row._id)">
+            Publish
+          </el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+
+    <el-dialog :title="buildDidalogTitle" :visible.sync="buildDialogVisible">
+      <el-alert class="error" type="error" v-if="error" :title="error"></el-alert>
+      <pre class="logs" v-loading="isFetchingLog"><code v-html="logs"></code></pre>
+    </el-dialog>
+  </div>
+
+  <script src="https://cdn.bootcss.com/axios/0.18.0/axios.min.js"></script>
+  <script src="https://cdn.bootcss.com/date-fns/1.29.0/date_fns.min.js"></script>
+  <script src="https://cdn.bootcss.com/vue/2.5.15/vue.min.js"></script>
+  <script src="https://cdn.bootcss.com/element-ui/2.2.1/index.js"></script>
+  <script src="https://cdn.bootcss.com/socket.io/2.0.4/socket.io.slim.js"></script>
+  <script src="./script.js"></script>
+</body>
+</html>

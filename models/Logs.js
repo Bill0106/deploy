@@ -2,8 +2,15 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const LogsSchema = new Schema({
-  commit_id: { type: Schema.Types.ObjectId, unique: true },
-  log: String,
+  contents: {
+    type: String,
+    required: true,
+  },
+  build_id: {
+    type: Schema.Types.ObjectId,
+    index: { unique: true },
+    ref: 'Builds',
+  }
 }, {
   timestamps: true
 })

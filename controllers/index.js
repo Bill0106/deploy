@@ -1,7 +1,5 @@
 const commits = require('./commits')
-const webhook = require('./webhook')
+const logs = require('./logs')
+const publish = require('./publish')
 
-module.exports = {
-  commits,
-  webhook,
-}
+module.exports = { commits, logs, publish }
