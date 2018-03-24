@@ -12,6 +12,7 @@ new Vue({
     buildDialogVisible: false,
     isFetching: false,
     isFetchingLog: false,
+    isPublishing: false,
   },
   computed: {
     filteredCommits() {
@@ -56,6 +57,17 @@ new Vue({
         this.isFetchingLog = false
       } catch (error) {
         this.$message.error(error.message)
+      }
+    },
+    async handlePublish(id) {
+      try {
+        this.isPublishing = true
+        await axios.post(`/commits/${id}/publish`)
+        this.isPublishing = false
+        this.fetchList()
+      } catch (error) {
+        this.$message.error(error.message)
+        this.isPublishing = false
       }
     }
   },

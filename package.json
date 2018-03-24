@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "pm2 start server.js --name \"deploy\"",
-    "dev": "nodemon server.js -i \"dist/*\""
+    "dev": "nodemon --inspect server.js -i \"dist/*\""
   },
   "author": "Bill",
   "license": "MIT",
