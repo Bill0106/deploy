@@ -32,7 +32,7 @@ const CommitsSchema = new Schema({
   },
   build_id: {
     type: Schema.Types.ObjectId,
-    index: { unique: true },
+    index: { unique: true, sparse: true },
     ref: 'Builds'
   },
 }, {
