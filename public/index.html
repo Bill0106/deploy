@@ -38,6 +38,8 @@
     <el-tabs v-model="activeTab" @tab-click="handleTabClick">
       <el-tab-pane label="App" name="app"></el-tab-pane>
       <el-tab-pane label="Admin" name="admin"></el-tab-pane>
+      <el-tab-pane label="Backend" name="backend"></el-tab-pane>
+      <el-tab-pane label="Deploy" name="deploy"></el-tab-pane>
     </el-tabs>
     <el-table :data="filteredCommits" @close="logs = ''" v-loading="isFetching">
       <el-table-column label="ID" prop="commit_id"></el-table-column>

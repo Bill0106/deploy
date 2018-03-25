@@ -29,7 +29,7 @@ const create = async (req, res) => {
   const { head_commit, ref } = req.body
 
   try {
-    if (!['admin', 'app'].includes(repo)) {
+    if (!['admin', 'app', 'backend', 'deploy'].includes(repo)) {
       throw new Error('No such repository')
     }
 
