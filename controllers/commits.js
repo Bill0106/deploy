@@ -6,7 +6,7 @@ const list = async (req, res) => {
   const { repo, limit, offset } = req.query
 
   try {
-    if (!['app', 'admin'].includes(repo)) {
+    if (!['app', 'admin', 'backend', 'deploy'].includes(repo)) {
       throw new Error('No such repository')
     }
 
