@@ -4,6 +4,7 @@ const socket = io.connect('http://deploy.zhuhaolin.com:3000')
 new Vue({
   el: '#app',
   data: {
+    activeTab: 'app',
     commits: [],
     page: 1,
     logs: '',
@@ -33,9 +34,13 @@ new Vue({
       const offset = (this.page - 1) * 30
 
       this.isFetching = true
-      const res = await axios.get(`/commits?repo=admin&limit=${limit}&offset=${offset}`)
+      const res = await axios.get(`/commits?repo=${this.activeTab}&limit=${limit}&offset=${offset}`)
       this.commits = res.data
       this.isFetching = false
+    },
+    handleTabClick(tab, event) {
+      this.page = 1
+      this.fetchList()
     },
     handleBuild(id) {
       this.buildDidalogTitle = 'Commit Building...'

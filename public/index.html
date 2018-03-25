@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Deploy</title>
-  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+  <link href="https://cdn.bootcss.com/element-ui/2.2.1/theme-chalk/index.css" rel="stylesheet">
   <style>
     body {
       margin: 0;
@@ -35,6 +35,10 @@
 </head>
 <body>
   <div id="app">
+    <el-tabs v-model="activeTab" @tab-click="handleTabClick">
+      <el-tab-pane label="App" name="app"></el-tab-pane>
+      <el-tab-pane label="Admin" name="admin"></el-tab-pane>
+    </el-tabs>
     <el-table :data="filteredCommits" @close="logs = ''" v-loading="isFetching">
       <el-table-column label="ID" prop="commit_id"></el-table-column>
       <el-table-column label="Message" prop="commit_message"></el-table-column>
