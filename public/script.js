@@ -1,5 +1,5 @@
 const { format } = dateFns
-const socket = io.connect('127.0.0.1:3000')
+const socket = io.connect('http://deploy.zhuhaolin.com:3000')
 
 new Vue({
   el: '#app',
