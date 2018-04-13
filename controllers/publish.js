@@ -18,15 +18,30 @@ function makeIndexFile(commit) {
 
   const title = commit.repo === 'admin' ? 'Admin' : `Bill's Hobby`
   const element = commit.repo === 'admin' ? $("<main/>").attr('id', 'admin') : $("<my-app/>")
-  $("title").text(title)
-  $("body").html(element)
+  $('title').text(title)
+  $('body').html(element)
 
   files.forEach(file => {
-    const script = $("<script/>").attr('src', `http://7xtddu.com1.z0.glb.clouddn.com/${file}`)
-    $("body").append(script)
+    const script = $('<script/>').attr('src', `http://7xtddu.com1.z0.glb.clouddn.com/${file}`)
+    $('body').append(script)
   })
 
   return $.html()
+}
+/**
+ * Wirte Template File
+ * @param  {string} html
+ */
+function writeFile(html) {
+  return new Promise((resolve, reject) => {
+    fs.writeFile('../public/template.html', html, err => {
+      if (err) {
+        reject(err)
+      }
+
+      resolve()
+    })
+  })
 }
 
 /**
@@ -37,12 +52,11 @@ function makeIndexFile(commit) {
  * @returns {promise}
  */
 function runPublish(repo, html) {
-  return new Promise((resolve, reject) => {
-    child.exec(`bash bash/publish.sh ${repo} '${html}'`, async (err, stdout, stderr) => {
-      if (err) reject(err)
+  const spawn = child.spawn('bash', ['bash/publish.sh', repo, html])
 
-      resolve()
-    })
+  return new Promise((resolve, reject) => {
+    spawn.on('close', () => resolve())
+    spawn.on('error', err => reject(err))
   })
 }
 
@@ -66,6 +80,7 @@ module.exports = async (req, res) => {
     }
 
     const html = makeIndexFile(commit)
+    // await writeFile(html)
     await runPublish(commit.repo, html)
 
     build.published = true
