@@ -76,6 +76,7 @@ function uploadFile(fileName) {
 }
 
 module.exports = async (commit, socket) => {
+  contents = ''
   webSocket = socket
 
   try {

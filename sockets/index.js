@@ -1,7 +1,5 @@
 const Commits = require('../models/Commits')
-const Builds = require('../models/Builds')
 const build = require('./build')
-const publish = require('./publish')
 
 module.exports = socket => {
   socket.on('build', async data => {
@@ -18,21 +16,6 @@ module.exports = socket => {
       }
 
       build(commit, socket)
-    } catch (error) {
-      socket.emit('error', error.message)
-    }
-  })
-
-  socket.on('publish', async data => {
-    const { id } = data
-
-    try {
-      const build = await Builds.findById(id).exec()
-      if (!build) {
-        throw new Error('No such build!')
-      }
-
-      publish(build, socket)
     } catch (error) {
       socket.emit('error', error.message)
     }
