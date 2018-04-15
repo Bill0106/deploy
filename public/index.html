@@ -46,6 +46,11 @@
       <el-table-column label="Message" prop="commit_message"></el-table-column>
       <el-table-column label="Committer" prop="committer"></el-table-column>
       <el-table-column label="Commited At" prop="committedAt"></el-table-column>
+      <el-table-column label="Dist Files">
+        <template slot-scope="scope">
+          {{scope.row.builds ? scope.row.builds.dist_files : 'NULL'}}
+        </template>
+      </el-table-column>
       <el-table-column label="Operator">
         <template slot-scope="scope">
           <el-button type="primary" v-if="!scope.row.builds" @click="handleBuild(scope.row._id)">Build</el-button>
