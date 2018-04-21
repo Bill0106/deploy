@@ -11,7 +11,7 @@ const Logs = require('../models/Logs')
 const { QINIU } = require('../config/token')
 
 const ansi_up = new AU.default
-let contents = '', uploadToken, webSocket
+let contents = '', uploadToken, uploadTokenCreatedAt, webSocket
 
 /**
  * Concat log contents string and emit with websocket
@@ -52,10 +52,11 @@ function uploadFile(fileName) {
   readableStream.push(fileBuffer)
   readableStream.push(null)
 
-  if (!uploadToken) {
+  if (!uploadToken || moment(uploadTokenCreatedAt).add(55, 'm').isBefore(new Date())) {
     const mac = new qiniu.auth.digest.Mac(QINIU.AK, QINIU.SK)
     const putPolicy = new qiniu.rs.PutPolicy({ scope: 'website' })
     uploadToken = putPolicy.uploadToken(mac)
+    uploadTokenCreatedAt = new Date()
   }
 
   const config = new qiniu.conf.Config()
