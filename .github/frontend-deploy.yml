@@ -1,0 +1,37 @@
+name: Deploy Frontend
+
+on:
+  workflow_dispatch:
+    inputs:
+      path:
+        description: 'Directory path to deploy files'
+        required: true
+        type: string
+      commit:
+        description: 'Frontend repo commit sha to deploy'
+        required: true
+        type: string
+
+jobs:
+  deploy:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-southeast-1
+      - name: Download Dist
+        env:
+          Filename: ${{ inputs.commit }}.tar.gz
+        run: |
+          aws s3 cp s3://zhuhaolin.com/frontend/$Filename $Filename
+          tar -xzvf $Filename
+          mv dist ${{ inputs.path }}
+      - uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: root
+          key: ${{ secrets.SSH_KEY }}
+          source: ${{ inputs.path }}
+          target: "/var/www"
