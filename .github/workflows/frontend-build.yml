@@ -4,11 +4,15 @@ on:
   workflow_dispatch:
     inputs:
       repo:
-        description: 'Frontend repo to build'
+        description: 'Repo'
         required: true
         type: string
       commit:
-        description: 'Frontend repo commit sha to build'
+        description: 'Commit'
+        required: true
+        type: string
+      version:
+        description: 'Version'
         required: true
         type: string
 

@@ -4,23 +4,27 @@ on:
   workflow_dispatch:
     inputs:
       repo:
-        description: 'Backend repo to build'
+        description: 'Repo'
         required: true
         type: string
       commit:
-        description: 'Backend repo commit sha to build'
+        description: 'Commit'
         required: true
         type: string
       proto:
-        description: 'Backend protobuf commit sha to build'
+        description: 'Proto'
         required: true
         type: string
       path:
-        description: 'Backend repo path to build'
+        description: 'Path'
         required: true
         type: string
       image:
-        description: 'Backend docker image name'
+        description: 'Image'
+        required: true
+        type: string
+      version:
+        description: 'Version'
         required: true
         type: string
 

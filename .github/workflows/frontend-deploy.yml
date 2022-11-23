@@ -4,11 +4,15 @@ on:
   workflow_dispatch:
     inputs:
       path:
-        description: 'Directory path to deploy files'
+        description: 'Path'
         required: true
         type: string
       commit:
-        description: 'Frontend repo commit sha to deploy'
+        description: 'Commit'
+        required: true
+        type: string
+      version:
+        description: 'Version'
         required: true
         type: string
 
@@ -25,7 +29,7 @@ jobs:
         env:
           Filename: ${{ inputs.commit }}.tar.gz
         run: |
-          aws s3 cp s3://zhuhaolin.com/frontend/$Filename $Filename
+          aws s3 cp s3://zhuhaolin.com-deploy/frontend/$Filename $Filename
           tar -xzvf $Filename
           mv dist ${{ inputs.path }}
       - uses: appleboy/scp-action@master
