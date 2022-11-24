@@ -34,6 +34,7 @@ jobs:
     steps: 
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
+      - run: npm install axios
       - uses: actions/github-script@v6
         env:
           VERSION_ID: ${{ inputs.version }}
@@ -44,6 +45,7 @@ jobs:
             await script('build')
   build:
     runs-on: ubuntu-20.04
+    needs: init
     steps:
       - uses: actions/checkout@v3
         with:
