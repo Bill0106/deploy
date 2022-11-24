@@ -20,6 +20,14 @@ jobs:
   deploy:
     runs-on: ubuntu-20.04
     steps:
+      - uses: actions/github-script@v6
+        env:
+          VERSION_ID: ${{ inputs.version }}
+          PAT: ${{ secrets.PAT }}
+        with:
+          script: |
+            const script = require('./github/scripts/start.js')
+            await script('deploy')
       - uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}

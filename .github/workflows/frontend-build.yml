@@ -20,6 +20,14 @@ jobs:
   build:
     runs-on: ubuntu-20.04
     steps:
+      - uses: actions/github-script@v6
+        env:
+          VERSION_ID: ${{ inputs.version }}
+          PAT: ${{ secrets.PAT }}
+        with:
+          script: |
+            const script = require('./github/scripts/start.js')
+            await script('build')
       - uses: actions/checkout@v3
         with:
           repository: ${{ inputs.repo }}
