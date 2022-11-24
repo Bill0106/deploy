@@ -17,10 +17,11 @@ on:
         type: string
 
 jobs:
-  deploy:
+  init:
     runs-on: ubuntu-20.04
-    steps:
+    steps: 
       - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
       - uses: actions/github-script@v6
         env:
           VERSION_ID: ${{ inputs.version }}
@@ -28,7 +29,10 @@ jobs:
         with:
           script: |
             const script = require('./.github/scripts/start.js')
-            await script('deploy')
+            await script('build')
+  deploy:
+    runs-on: ubuntu-20.04
+    steps:
       - uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
