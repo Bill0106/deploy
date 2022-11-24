@@ -26,7 +26,7 @@ jobs:
           PAT: ${{ secrets.PAT }}
         with:
           script: |
-            const script = require('./github/scripts/start.js')
+            const script = require('./.github/scripts/start.js')
             await script('build')
       - uses: actions/checkout@v3
         with:
