@@ -4,7 +4,7 @@ module.exports = method => {
   const { VERSION_ID, PAT, GITHUB_RUN_ID } = process.env
   const config = {
     method: 'post',
-    url: `api.zhuhaolin.com/v1/github/workflow/_${method}`,
+    url: `https://api.zhuhaolin.com/v1/github/workflow/_${method}`,
     headers: {
       'pat': PAT,
       'Content-Type': 'application/json'
