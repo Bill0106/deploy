@@ -21,6 +21,20 @@ on:
         type: string
 
 jobs:
+  init:
+    runs-on: ubuntu-20.04
+    steps: 
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+      - run: npm install axios
+      - uses: actions/github-script@v6
+        env:
+          VERSION_ID: ${{ inputs.version }}
+          PAT: ${{ secrets.PAT }}
+        with:
+          script: |
+            const script = require('./.github/scripts/start.js')
+            await script('build')
   build:
     runs-on: ubuntu-20.04
     steps:
